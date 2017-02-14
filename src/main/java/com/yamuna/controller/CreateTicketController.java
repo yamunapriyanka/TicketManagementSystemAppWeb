@@ -3,11 +3,14 @@ package com.yamuna.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.mail.EmailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.yamuna.exception.ServiceException;
+import com.yamuna.service.CreateTicketService;
 
 @Controller
 @RequestMapping("/tickets")
@@ -114,7 +117,7 @@ public class CreateTicketController {
 		CreateTicketService createTicketService = new CreateTicketService();
 
 		try {
-			createTicketService.findUserDetails(emailId, password);
+			createTicketService.findUserDetails(emailId,password);
 			return "redirect:../user_details.jsp";
 
 		} catch (ServiceException e) {
@@ -148,7 +151,7 @@ public class CreateTicketController {
 	
 	@GetMapping("/ticket_solution")
 	public String ticketSolution(@RequestParam("EmailId") String emailId,@RequestParam("Password") String password, @RequestParam("IssueId") int issueId, @RequestParam("TicketSolution") String ticketSolution)
-			throws ServiceException {
+			throws ServiceException, EmailException {
 
 		System.out.println("TicketController-> updateTicket- name:EmailId" + emailId + ",Password:" + password+",IssueId:0"+issueId+",TicketSolution:"+ticketSolution);
 		CreateTicketService createTicketService = new CreateTicketService();
